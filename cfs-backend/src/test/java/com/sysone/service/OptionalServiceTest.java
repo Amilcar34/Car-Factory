@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -29,8 +31,8 @@ public class OptionalServiceTest {
 	
 	Optional slidingRoof = new Optional(1L, "tc", "Techo corredizo", new BigDecimal("12000.00"));
 	Optional airConditioning = new Optional(4L, "ab", "Airbag", new BigDecimal("7000.00"));
-	Set<Optional> optionals = Set.of(slidingRoof, airConditioning);
-	Set<Optional> optionalsResponse = optionalService.getByIds(Set.of(1L, 4L));
+	Set<Optional> optionals = new HashSet(Arrays.asList(slidingRoof, airConditioning));
+	Set<Optional> optionalsResponse = optionalService.getByIds(new HashSet(Arrays.asList(1L, 4L)));
 	
 	assertTrue(optionals.containsAll(optionalsResponse));
 	assertTrue(optionalsResponse.containsAll(optionals));
@@ -44,7 +46,7 @@ public class OptionalServiceTest {
 	BigDecimal costAlloyWheels = new BigDecimal(12000);
 	Optional airConditioning = new Optional(2L, "aa", "Aire acondicionado", costAirConditioning);
 	Optional alloyWheels = new Optional(5L, "ll", "Llantas de aleación", costAlloyWheels);
-	BigDecimal optionalsResponse = optionalService.sumCost(Set.of(airConditioning, alloyWheels));
+	BigDecimal optionalsResponse = optionalService.sumCost(new HashSet(Arrays.asList(airConditioning, alloyWheels)));
 	
 	assertEquals(costAirConditioning.add(costAlloyWheels), optionalsResponse);
 

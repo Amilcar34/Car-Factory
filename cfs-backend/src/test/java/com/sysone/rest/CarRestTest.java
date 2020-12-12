@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,7 +24,6 @@ import com.sysone.SysoneApplication;
 import com.sysone.contracts.StatsCar;
 import com.sysone.contracts.StatsModel;
 import com.sysone.contracts.StatsOptional;
-import com.sysone.rest.CarRest;
 import com.sysone.dto.CarDto;
 import com.sysone.entity.Car;
 import com.sysone.entity.Model;
@@ -44,7 +45,7 @@ public class CarRestTest {
 	BigDecimal costSedan = new BigDecimal(230000);
 	BigDecimal costSlidingRoof = new BigDecimal(12000);
 	BigDecimal costAirConditioning = new BigDecimal(20000);
-	CarDto carDto = new CarDto(1L, Set.of(3L, 4L));
+	CarDto carDto = new CarDto(1L, new HashSet(Arrays.asList(3L, 4L)));
 	
 	Mockito.when(carService.calculateCost(carDto.getModel(), carDto.getOptionals())).thenReturn(costSedan.add(costSlidingRoof).add(costAirConditioning));
 	
@@ -58,12 +59,12 @@ public class CarRestTest {
   public void create_car(){
 	// Set up
 	BigDecimal costSedan = new BigDecimal(230000);
-	Set<Long> idsOptionals = Set.of(1L, 4L);
+	Set<Long> idsOptionals = new HashSet(Arrays.asList(1L, 4L));
 	BigDecimal costSlidingRoof = new BigDecimal(12000);
 	BigDecimal costAirbag = new BigDecimal(20000);
 	Optional slidingRoof = new Optional(1L, "tc", "Techo corredizo", costSlidingRoof);
 	Optional airConditioning = new Optional(4L, "ab", "Airbag", costAirbag);
-	Set<Optional> setOptionals = Set.of(slidingRoof, airConditioning);
+	Set<Optional> setOptionals = new HashSet(Arrays.asList(slidingRoof, airConditioning));
 	CarDto carDto = new CarDto(1L, idsOptionals);
 	BigDecimal total_amount = costSedan.add(costSlidingRoof).add(costAirbag);
 	Car car_return = new Car(1L, new Model(1L, "Sedán ", costSedan), setOptionals, total_amount);
@@ -80,7 +81,7 @@ public class CarRestTest {
   public void update_car(){
 	// Set up
 	BigDecimal costSedan = new BigDecimal(230000);
-	Set<Long> idsOptionals = Set.of(3L, 2L);
+	Set<Long> idsOptionals = new HashSet(Arrays.asList(3L, 2L))	;
 	CarDto carDto = new CarDto(2L, idsOptionals);
 	BigDecimal costSlidingRoof = new BigDecimal(12000);
 	BigDecimal costAirbag = new BigDecimal(20000);
@@ -148,9 +149,9 @@ public class CarRestTest {
 	  }
 	};
 	StatsCar statsCarMock = new StatsCar();
-	statsCarMock.setCars(Set.of(statsModel));
+	statsCarMock.setCars(new HashSet(Arrays.asList(statsModel)));
 	statsCarMock.setCount_car(Long.valueOf(1));
-	statsCarMock.setOptionals(Set.of(optional1, optional2));
+	statsCarMock.setOptionals(new HashSet(Arrays.asList(optional1, optional2)));
 	Mockito.when(carService.stats()).thenReturn(statsCarMock);
 	// Execute
 	StatsCar statsCar = carRest.stats();
