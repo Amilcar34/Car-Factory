@@ -6,6 +6,8 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -53,10 +55,10 @@ public class CarServiceTest {
 	Optional airConditioning = new Optional(2L, "aa", "Aire acondicionado", costAirConditioning);
 	
 	Mockito.when(modelRepository.getOne(Mockito.any())).thenReturn(new Model(1L, "Sedán ", costSedan));
-	Mockito.when(optionalService.getByIds(Mockito.any())).thenReturn(Set.of(slidingRoof, airConditioning));
+	Mockito.when(optionalService.getByIds(Mockito.any())).thenReturn(new HashSet(Arrays.asList(slidingRoof, airConditioning)));
 	Mockito.when(optionalService.sumCost(Mockito.any())).thenReturn(costSlidingRoof.add(costAirConditioning));
 	
-	BigDecimal response = carService.calculateCost(1L, Set.of(3L, 4L));
+	BigDecimal response = carService.calculateCost(1L, new HashSet(Arrays.asList(3L, 4L)));
 	
 	assertEquals(costSedan.add(costSlidingRoof).add(costAirConditioning), response);
   }
@@ -65,12 +67,12 @@ public class CarServiceTest {
   public void create_car(){
 	// Set up
 	BigDecimal costFamily = new BigDecimal(245000);
-	Set<Long> idsOptionals = Set.of(1L, 4L);
+	Set<Long> idsOptionals = new HashSet(Arrays.asList(1L, 4L));
 	BigDecimal costSlidingRoof = new BigDecimal(12000);
 	BigDecimal costAirbag = new BigDecimal(20000);
 	Optional slidingRoof = new Optional(1L, "tc", "Techo corredizo", costSlidingRoof);
 	Optional airConditioning = new Optional(4L, "ab", "Airbag", costAirbag);
-	Set<Optional> setOptionals = Set.of(slidingRoof, airConditioning);
+	Set<Optional> setOptionals = new HashSet(Arrays.asList(slidingRoof, airConditioning));
 	
 	Mockito.when(modelRepository.getOne(Mockito.any())).thenReturn(new Model(2L, "Familiar", costFamily));
 	Mockito.when(optionalService.getByIds(idsOptionals)).thenReturn(setOptionals);
@@ -86,7 +88,7 @@ public class CarServiceTest {
   public void update_car(){
 	
 	BigDecimal costSedan = new BigDecimal(230000);
-	Set<Long> idsOptionals = Set.of(3L, 2L);
+	Set<Long> idsOptionals = new HashSet(Arrays.asList(3L, 2L));
 	BigDecimal costSlidingRoof = new BigDecimal(12000);
 	BigDecimal costAirbag = new BigDecimal(20000);
 	Optional slidingRoof = new Optional(1L, "tc", "Techo corredizo", costSlidingRoof);
