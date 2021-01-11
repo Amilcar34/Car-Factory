@@ -1,8 +1,6 @@
 package com.sysone.rest;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +25,6 @@ public class CarRest {
   
   @PostMapping("/calculateCost")
   public ResponseEntity<BigDecimal> calculateCost(CarDto carDto){
-	  List<String> lo = new ArrayList();
 	return ResponseEntity.ok(carService.calculateCost(carDto.getModel(), carDto.getOptionals()));
   }
   
