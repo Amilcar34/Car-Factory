@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sysone.contracts.StatsCar;
 import com.sysone.dto.CarDto;
 import com.sysone.entity.Car;
 import com.sysone.service.CarService;
@@ -42,13 +40,9 @@ public class CarRest {
   
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable long id){
-	
 	boolean isSuccess = carService.delete(id);
-	return isSuccess ? new ResponseEntity<Void>(HttpStatus.NO_CONTENT) : new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+	return isSuccess ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
   }
   
-  @GetMapping("/stats")
-  public StatsCar stats(){
-	return carService.stats();
-  }
+
 }

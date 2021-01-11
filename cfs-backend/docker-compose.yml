@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: db-pg-cfs
+    image: postgres:9.4
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=car_factory_sysone
+    restart: on-failure
+    ports:
+     - "5432:5432"

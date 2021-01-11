@@ -40,12 +40,12 @@ public class CarRestTest {
   CarService carService;
   
   @Test
-  public void calculate_cost_test(){
+  void calculate_cost_test(){
 	
 	BigDecimal costSedan = new BigDecimal(230000);
 	BigDecimal costSlidingRoof = new BigDecimal(12000);
 	BigDecimal costAirConditioning = new BigDecimal(20000);
-	CarDto carDto = new CarDto(1L, new HashSet(Arrays.asList(3L, 4L)));
+	CarDto carDto = new CarDto(1L, new HashSet<>(Arrays.asList(3L, 4L)));
 	
 	Mockito.when(carService.calculateCost(carDto.getModel(), carDto.getOptionals())).thenReturn(costSedan.add(costSlidingRoof).add(costAirConditioning));
 	
@@ -56,15 +56,15 @@ public class CarRestTest {
   }
   
   @Test
-  public void create_car(){
+  void create_car(){
 	// Set up
 	BigDecimal costSedan = new BigDecimal(230000);
-	Set<Long> idsOptionals = new HashSet(Arrays.asList(1L, 4L));
+	Set<Long> idsOptionals = new HashSet<>(Arrays.asList(1L, 4L));
 	BigDecimal costSlidingRoof = new BigDecimal(12000);
 	BigDecimal costAirbag = new BigDecimal(20000);
 	Optional slidingRoof = new Optional(1L, "tc", "Techo corredizo", costSlidingRoof);
 	Optional airConditioning = new Optional(4L, "ab", "Airbag", costAirbag);
-	Set<Optional> setOptionals = new HashSet(Arrays.asList(slidingRoof, airConditioning));
+	Set<Optional> setOptionals = new HashSet<>(Arrays.asList(slidingRoof, airConditioning));
 	CarDto carDto = new CarDto(1L, idsOptionals);
 	BigDecimal total_amount = costSedan.add(costSlidingRoof).add(costAirbag);
 	Car car_return = new Car(1L, new Model(1L, "Sedán ", costSedan), setOptionals, total_amount);
@@ -78,10 +78,10 @@ public class CarRestTest {
   }
   
   @Test
-  public void update_car(){
+  void update_car(){
 	// Set up
 	BigDecimal costSedan = new BigDecimal(230000);
-	Set<Long> idsOptionals = new HashSet(Arrays.asList(3L, 2L))	;
+	Set<Long> idsOptionals = new HashSet<>(Arrays.asList(3L, 2L))	;
 	CarDto carDto = new CarDto(2L, idsOptionals);
 	BigDecimal costSlidingRoof = new BigDecimal(12000);
 	BigDecimal costAirbag = new BigDecimal(20000);
@@ -100,65 +100,9 @@ public class CarRestTest {
   }
   
   @Test
-  public void delete_car(){
+  void delete_car(){
 	
 	assertNull(carRest.delete(1L).getBody());
   }
   
-  @Test
-  public void stats_car(){
-	// Set up
-	Model modelSedan = new Model(1L, "sedan", new BigDecimal(230000));
-	StatsModel statsModel = new StatsModel() {
-	  public Integer getPercent(){
-		return 100;
-	  }
-	  
-	  public String getModel(){
-		return modelSedan.getName();
-	  }
-	  
-	  public Long getCount(){
-		return Long.valueOf(1);
-	  }
-	};
-	StatsOptional optional1 = new StatsOptional() {
-	  public Integer getPercent(){
-		return 50;
-	  }
-	  
-	  public String getOptional(){
-		return "tc";
-	  }
-	  
-	  public Long getCount(){
-		return Long.valueOf(1);
-	  }
-	};
-	StatsOptional optional2 = new StatsOptional() {
-	  public Integer getPercent(){
-		return 50;
-	  }
-	  
-	  public String getOptional(){
-		return "ab";
-	  }
-	  
-	  public Long getCount(){
-		return Long.valueOf(1);
-	  }
-	};
-	StatsCar statsCarMock = new StatsCar();
-	statsCarMock.setCars(new HashSet(Arrays.asList(statsModel)));
-	statsCarMock.setCount_car(Long.valueOf(1));
-	statsCarMock.setOptionals(new HashSet(Arrays.asList(optional1, optional2)));
-	Mockito.when(carService.stats()).thenReturn(statsCarMock);
-	// Execute
-	StatsCar statsCar = carRest.stats();
-	// Verify
-	assertNotNull(statsCar);
-	assertEquals(statsCarMock.getCars(), statsCar.getCars());
-	assertEquals(statsCarMock.getCount_car(), statsCar.getCount_car());
-	assertEquals(statsCarMock.getOptionals(), statsCar.getOptionals());
-  }
 }

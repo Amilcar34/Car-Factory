@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.sysone.contracts.StatsCar;
 import com.sysone.entity.Car;
 
 @Service
@@ -18,7 +17,5 @@ public interface CarService{
   Car update(long id, long idModel, Set<Long> idsOptionals);
 
   boolean delete(long id);
-
-  StatsCar stats();
 
 }

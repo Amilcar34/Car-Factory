@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sysone.contracts.StatsCar;
 import com.sysone.entity.Car;
 import com.sysone.entity.Model;
 import com.sysone.entity.Optional;
@@ -46,14 +45,6 @@ public class CarServiceImpl implements CarService {
 	return calculateCost(modelRepository.getOne(idModel), optionalService.getByIds(idsOptionals));
   }
   
-  public StatsCar stats(){
-	StatsCar statsCar = new StatsCar();
-	statsCar.setCount_car(carRepository.count());
-	statsCar.setCars(carRepository.statsModel());
-	statsCar.setOptionals(carRepository.statsOptional());
-	return statsCar;
-  }
-  
   public Car create(long idModel, Set<Long> idsOptionals){
 	return saveCar(new Car(), idModel, idsOptionals);
   }
@@ -71,7 +62,6 @@ public class CarServiceImpl implements CarService {
 	entity.setPrice(calculateCost(model, optionals));
 	return carRepository.save(entity);
   }
-  
   
   private BigDecimal calculateCost(Model model, Set<Optional> optionals){
 	
